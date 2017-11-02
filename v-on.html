@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+</head>
+<body>
+    <div id="app">
+        <!-- <button v-on:click="add(2)">加一</button> -->
+        <button @click="add(2,$event)">加一</button>
+    <div v-text="count" >
+        <!-- {{count}} -->
+    </div> 
+        <input type="text" @keyup.13="handler" v-model="keyword">
+        <button v-on={mousedown:doThis,mouseup:doThat}>btn</button>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+    new Vue({
+        el:'#app',
+        data:{
+            count:0,
+            keyword:0
+        },
+        methods:{
+            add(num,e){
+                this.count+=num;
+                console.log(e);
+            },
+            handler(){
+                this.count+=parseInt(this.keyword);
+            },
+            doThat(){
+                console.log("dothis");
+            },
+            doThis(){
+                console.log("dothat");
+            }
+        }
+    })
+    
+    </script>
+</body>
+</html>

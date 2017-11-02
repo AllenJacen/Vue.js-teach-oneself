@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+            <!-- {{msg}}   //插值
+            <div v-if="isLogin">欢迎你登陆</div>
+            <div v-else>请登陆</div>
+            <div v-if="type == 'A'">A</div>
+            <div v-else-if=" type == 'B'">B</div>
+            <div v-else>C</div>
+
+            <div v-show="isShow">show</div> -->
+            <ul>
+                <li v-for="(school,index) in list">
+                    {{school}}--{{index}}
+                </li>
+            </ul>
+            <ul>
+                <li v-for="item in sortArr">
+                    {{item}}
+                </li>
+            </ul>
+            <ul>
+                <li v-for="(value,key,index) in obj">
+                   {{index}}--{{key}}--{{value}}
+                </li>
+            </ul>
+            <ul>
+                <li v-for="user in users">
+                    {{user.name}}--{{user.age}}
+                </li>
+            </ul>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+    //类 对象
+    //数据驱动
+    var vm= new Vue({
+        el:"#app",
+        data:{
+          msg:'hello world!' ,
+          isLogin:false,
+          type:'A' ,
+          isShow: true,
+          list:['林大','黑大','工大','工程'],
+          arr:[1,5,6,9,2,7,3],
+          obj:{
+              name:"zhangsan",
+              age:18
+          },
+          users:[{
+            name:"zhangsan",
+              age:18
+          },{
+            name:"wangwu",
+              age:22
+          },{
+            name:"lisan",
+              age:19
+          }]
+        },
+        //计算属性
+        computed: {
+            sortArr:function(){
+                   return this.arr.sort(function(a,b){
+                       return a - b;
+                   });
+            }
+        }
+
+    })
+    console.log(vm);
+    </script>
+</body>
+</html>
