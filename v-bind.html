@@ -5,11 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    li{
+        list-style: none;
+    }
+    #todolist{
+        margin: 200px auto;
+        width:500px;
+        /* text-align: center; */
+    }
+    #todolist h1{
+        text-align: center;
+    }
+    #todolist li{
+        height: 50px;
+        padding: 0 10px;
+        background: #ccc;
+        text-align: center;
+        line-height:50px;
+        margin-bottom: 10px;
+        cursor:pointer;
+        font-size: 18px;
+    }
+    #todolist .red{
+        background: red;
+    }
+    .product{
+        float: left;
+    }
+    .price{
+        float:right;
+    }
+    #total{
+        float: left;
+    }
+    .delect{
+        float: left;
+    }
+    .doublecheck{
+        float: left;
+        margin-top:20px;
+    }
+    </style>
 </head>
 <body>
-<div id="app">
-<img src="" alt="">
-
+<div id="todolist">
+    <h1>todolist</h1>
+    <hr>
+    <div>
+            <label for="">类型：</label>
+            <input type="text" placeholder="请输入商品名称" v-model="names">
+            <label for="">价格:</label> 
+            <input type="text" placeholder="请输入价格" v-model="price">
+            <button @click="add()">添加</button><br>
+            <label for="">查询：</label>
+            <input type="text" placeholder="请输入关键字" v-model="keys">
+            <button @click="search()">查询</button>
+    </div>
+<ul>
+    <li v-for="(product,index) in productList" @click="selected(product)" :class={red:product.isRed}>
+        <input type="checkbox" class="doublecheck" @click.stop='' v-model="choose" :value="index">
+        <span class="delect" @click.stop="del(index)">[X]</span>
+        <span class='product' v-text="product.name"></span>
+        <span class='price' v-text="product.price"></span>
+    </li>
+</ul>
+<!-- <div id="total">
+   总价: {{priceNum}}
+</div> -->
+总价:<span v-text="priceNum"></span> 
+<button @click="delAll()">删除选中</button>
+<!-- {{choose}}{{keys}} -->
 </div>
 
 
@@ -17,9 +87,106 @@
     <script src="vue.js"></script>
     <script>
      new Vue({
+      el:"#todolist",
+      data:{
+        productList:[{
+            name:'衣服',
+            price:123,
+            isRed:false
+            },
+            {
+            name:'鞋',
+            price:654,
+            isRed:false
+            },
+            {
+            name:'裤子',
+            price:127,
+            isRed:false
+            },
+            {
+            name:'手机',
+            price:2584,
+            isRed:false
+            },
+            {
+            name:'电脑',
+            price:6888,
+            isRed:false
+            }],
+      priceNum:0,
+      names:'',
+      price:0,
+      choose:[],
+      keys:''
+      },
+      methods:{
+        selected(product){
+            product.isRed=!product.isRed;
+            if(product.isRed==true){
+                this.priceNum+=product.price;
+            }else{
+                this.priceNum-=product.price;
+            }
+        },
+        priceSum(){
+
+        },
+        add(){
+            if(this.names!=''&&this.price!=0){
+                 this.productList.push(
+                {
+                    name:this.names,
+                    price: this.price,
+                    isRed:false
+                }
+            )
+            }
+           
+               this.names='';
+                this.price=0;
+
+        },
+        del(index){
+            if(this.productList[index].isRed==true){
+                this.priceNum-=this.productList[index].price;
+            }
+            
+            this.productList.splice(index,1);
+        },
+        delAll(){
+            var arrprice=this.productList.filter((val,idx) =>{
+                if(this.choose.includes(idx)){
+                    return val;
+                }
+            });
+            arrprice.forEach((val,idx) => {
+                if(arrprice[idx].isRed==true){
+                    this.priceNum-=arrprice[idx].price;
+            }
+            });            
+            var arr=this.productList.filter((val,idx) =>{
+                if(!this.choose.includes(idx)){
+                    return val;
+                }
+            });
+            //console.log(arr);
+            this.productList=arr;
+            this.choose=[];
+        },
+        search(){
+            var keyword=this.productList.filter((val,idx) => {
+                if(val.name.includes(this.keys)){
+                    return val;
+                }
+            });
+            this.productList=keyword;
+       
+        }
+      }
       
-    })
-    
+    });
+    // splice
     </script>      
 </body>
 </html>
