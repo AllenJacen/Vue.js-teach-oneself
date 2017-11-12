@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <weichang></weichang>
+    <my-component :aa='msg'></my-component>
+</div>
+<div id="app2">
+        <weichang></weichang>
+        <my-component2></my-component2>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+    Vue.component('weichang',{
+        template:`
+            <div>
+                <h2>我是一个全局组件</h2>
+                <div>哈哈哈哈</div>    
+            </div>
+        `
+    });
+    new Vue({
+        el:'#app',
+        data:{
+            msg:'我是可变的'
+         },
+        components:{
+            myComponent:{
+                template:  `
+                        <div>
+                            <h2>我是一个局部组件</h2>
+                            <h2>{{aa}}</h2>
+                        </div>    
+                `,
+                props:['aa']
+            }
+         }
+    });
+    new Vue({
+        el:'#app2',
+        data:{
+         },
+        components:{
+            myComponent2:{
+                template:  `<h2>我是第二个个局部组件</h2>`
+            }
+         }
+    })
+    </script>
+</body>
+</html>
